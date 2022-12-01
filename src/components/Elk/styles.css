@@ -1,0 +1,30 @@
+.elk_container {
+    padding: 20px;
+}
+.elk_pagination {
+    display: flex;
+}
+.elk_pagination ul {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    gap: 2px;
+}
+.elk_pagination ul li {
+    display: flex;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+.elk_pagination ul li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 20px;
+    padding: 2px;
+}
+.elk_pagination ul li:hover, .elk_pagination ul li.selected {
+    background: black;
+    color: white;
+    border-color: black;
+}

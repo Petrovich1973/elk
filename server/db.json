@@ -1,0 +1,38 @@
+{
+  "journal": [
+    {
+      "branch": "5278",
+      "errorMessage": "Incorrect value of the \"OpCode\" field: (-1)!",
+      "id": "38-5278-52784-104948-2022-11-17",
+      "office": "52784",
+      "officeOperNo": "104948",
+      "operDate": "2022-11-17",
+      "partitionKey": "238",
+      "recordOffset": "1987208622",
+      "recordTime": "2022-11-17T14:20:50.962036",
+      "retryCount": "5",
+      "status": "FAILURE",
+      "tb": "38",
+      "topic": "jrn",
+      "topicPartition": "1",
+      "workMode": "MAIN"
+    },
+    {
+      "branch": "5278",
+      "errorMessage": "Incorrect value of the \"OpCode\" field: (-1)!",
+      "id": "38-5278-52784-26918-2022-11-28",
+      "office": "52784",
+      "officeOperNo": "26918",
+      "operDate": "2022-11-28",
+      "partitionKey": "571",
+      "recordOffset": "1901362824",
+      "recordTime": "2022-11-28T17:06:45.300967",
+      "retryCount": "5",
+      "status": "FAILURE",
+      "tb": "38",
+      "topic": "jrn",
+      "topicPartition": "0",
+      "workMode": "MAIN"
+    }
+  ]
+}
