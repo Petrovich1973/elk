@@ -51,8 +51,9 @@ export default function Elk() {
             setTotalPages(response.data.totalPages)
 
         } catch (e) {
-            const statusCode = e.response.status || 'not code'
-            const errorText = e.response.data || 'Что-то пошло не так :)'
+            console.log(e)
+            const statusCode = e?.response?.status || 'ERR_CONNECTION_REFUSED'
+            const errorText = e?.response?.data || 'Что-то пошло не так :)'
             NotificationManager.error(errorText, statusCode, 4000)
         }
         setIsPendingJournal(false)
@@ -68,8 +69,8 @@ export default function Elk() {
             })
             setFilterAttr(response.data)
         } catch (e) {
-            const statusCode = e.response.status || 'not code'
-            const errorText = e.response.data || 'Что-то пошло не так :)'
+            const statusCode = e?.response?.status || 'ERR_CONNECTION_REFUSED'
+            const errorText = e?.response?.data || 'Что-то пошло не так :)'
             NotificationManager.error(errorText, statusCode, 4000)
         }
     }

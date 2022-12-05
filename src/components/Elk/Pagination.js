@@ -26,7 +26,6 @@ export default function Pagination({
                     <option key={element} value={element}>{element}</option>
                 ))}
             </select>}
-            <div>{currentPage}</div>
             <ReactPaginate
                 disableInitialCallback={true}
                 breakLabel="..."
