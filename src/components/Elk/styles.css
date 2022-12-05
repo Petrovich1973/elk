@@ -3,6 +3,8 @@
 }
 .elk_pagination {
     display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
 }
 .elk_pagination ul {
     display: flex;
@@ -20,11 +22,48 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 20px;
+    min-width: 27px;
     padding: 2px;
 }
 .elk_pagination ul li:hover, .elk_pagination ul li.selected {
     background: black;
     color: white;
     border-color: black;
+}
+
+.elk_journal {
+    max-width: 100%;
+    max-height: 600px;
+    overflow: auto;
+}
+.elk_journal table {
+    border-collapse: collapse;
+}
+.elk_journal table th, .elk_journal table td {
+    padding: 4px 8px;
+    text-align: left;
+    vertical-align: top;
+    white-space: nowrap;
+    border: 1px solid;
+}
+
+.elk_filter {
+    padding: 20px 0;
+}
+.elk_filter_elements {
+    display: flex;
+    gap: 10px;
+}
+.elk_filter_elements.add {
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 20px;
+    margin: 20px 0;
+}
+.elk_filter select, .elk_filter_element select, .elk_filter_element input {
+    padding: 4px;
+}
+.elk_filter_element {
+    display: inline-flex;
+    flex-direction: column;
 }

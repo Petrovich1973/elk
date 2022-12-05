@@ -46,16 +46,16 @@ server.post('/journal', async (req, res) => {
 
     const {data} = await axios.get(`${DB_URL}/journal`)
 
-    // res.send({...response, content: data})
-    res.status(500).send("Текст ошибки получения журнала")
+    res.send({...response, content: data})
+    // res.status(500).send("Текст ошибки получения журнала")
 })
 
 server.get('/journal/filter', async (req, res) => {
 
     const {data} = await axios.get(`${DB_URL}/filter`)
 
-    // res.send({...data})
-    res.status(500).send("Текст ошибки получения фильтров")
+    res.send(data)
+    // res.status(500).send("Текст ошибки получения фильтров")
 })
 
 server.listen(PORT, () => {
