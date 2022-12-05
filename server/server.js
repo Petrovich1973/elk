@@ -15,41 +15,47 @@ const DB_PORT = 3002
 const DB_URL = `${DB_ADDRESS}:${DB_PORT}`
 
 server.post('/journal', async (req, res) => {
-    // console.log(req.params)
-    // console.log(req.body)
-    // console.log(req.query)
 
     const response = {
         "pageable": {
             "sort": {
-                "sorted": false,
+                "empty": true,
                 "unsorted": true,
-                "empty": true
+                "sorted": false
             },
-            "pageNumber": 0,
-            "pageSize": 2,
             "offset": 0,
+            "pageNumber": 0,
+            "pageSize": 20,
             "paged": true,
             "unpaged": false
         },
-        "totalPages": 3,
-        "totalElements": 6,
+        "totalElements": 3866,
+        "totalPages": 194,
         "last": false,
-        "numberOfElements": 2,
         "number": 0,
         "sort": {
-            "sorted": false,
+            "empty": true,
             "unsorted": true,
-            "empty": true
+            "sorted": false
         },
+        "size": 20,
+        "numberOfElements": 20,
         "first": true,
-        "size": 2,
         "empty": false
     }
 
     const {data} = await axios.get(`${DB_URL}/journal`)
 
-    res.send({...response, content: data})
+    // res.send({...response, content: data})
+    res.status(500).send("Текст ошибки получения журнала")
+})
+
+server.get('/journal/filter', async (req, res) => {
+
+    const {data} = await axios.get(`${DB_URL}/filter`)
+
+    // res.send({...data})
+    res.status(500).send("Текст ошибки получения фильтров")
 })
 
 server.listen(PORT, () => {

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactPaginate from 'react-paginate'
 
-export default function Pagination() {
+export default function Pagination({pageCount = 0, }) {
     const handlePageClick = (e) => {
         console.log(e)
     }
@@ -12,9 +12,10 @@ export default function Pagination() {
                 nextLabel="next >"
                 onPageChange={handlePageClick}
                 pageRangeDisplayed={5}
-                pageCount={100}
+                pageCount={pageCount}
                 previousLabel="< previous"
                 renderOnZeroPageCount={null}
+                selected={4}
             />
         </div>
     )
