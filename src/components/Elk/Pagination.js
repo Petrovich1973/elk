@@ -6,20 +6,29 @@ export default function Pagination({
                                        currentPage = 0,
                                        pageCount = 0,
                                        onChangePage = () => console.log('Pagination change'),
-                                       onChangeSize = () => console.log('Size change')
+                                       onChangeSize = () => console.log('Size change'),
+                                       isPendingJournal = false
                                    }) {
-    const handlePageClick = (e) => {
+    const handlePageClick = e => {
         console.log(e.selected)
         onChangePage(e.selected)
     }
     return (
         <div className={'elk_pagination'}>
-            <select name="sizeName" id="sizeId" value={size} onChange={e => onChangeSize(e.target.value)}>
+            {Boolean(pageCount) &&
+            <select
+                disabled={isPendingJournal}
+                name="sizeName"
+                id="sizeId"
+                value={size}
+                onChange={e => onChangeSize(e.target.value)}>
                 {[20, 60, 100].map(element => (
                     <option key={element} value={element}>{element}</option>
                 ))}
-            </select>
+            </select>}
+            <div>{currentPage}</div>
             <ReactPaginate
+                disableInitialCallback={true}
                 breakLabel="..."
                 nextLabel="next"
                 onPageChange={handlePageClick}
@@ -27,7 +36,7 @@ export default function Pagination({
                 pageCount={pageCount}
                 previousLabel="previous"
                 renderOnZeroPageCount={null}
-                initialPage={currentPage}
+                forcePage={currentPage}
             />
         </div>
     )

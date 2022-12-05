@@ -9,6 +9,11 @@ export default function Filter({
                                    onChangeFilter = () => console.log('Filter change')
                                }) {
 
+    const onDeleteTag = el => {
+        const newFilterList = filter.filter(element => element.name !== el.name)
+        onChangeFilter(newFilterList)
+    }
+
     return (
         <div className={'elk_filter'}>
             <h3>Filter</h3>
@@ -21,7 +26,12 @@ export default function Filter({
                         ))}
                     </select>
                 </div>
-
+                {filter.map((el, i) => (
+                    <div key={i} className={'elk_filter_element tag'}>
+                        <span>{el.name} / {el.type} / {el?.value || `${el?.valueFrom}-${el?.valueTo}`}</span>
+                        <span title={'удалить'} className={'delete'} onClick={() => onDeleteTag(el)}>&#10005;</span>
+                    </div>
+                ))}
             </div>
         </div>
     )

@@ -3,7 +3,7 @@ import React from "react"
 export default function CreateFilterElement({
                                                 filterAttr = [],
                                                 filter = [],
-                                                onAddFilter = () => console.log('Add filter')
+                                                onChangeFilter = () => console.log('Add filter')
                                             }) {
     const [name, setName] = React.useState('')
     const [acceptedFilters, setAcceptedFilters] = React.useState('')
@@ -35,9 +35,9 @@ export default function CreateFilterElement({
             valueTo: acceptedValues2
         }
         if(acceptedFilters === 'BETWEEN') {
-            console.log(forValue2)
+            onChangeFilter([...filter, forValue2])
         } else {
-            console.log(forValue1)
+            onChangeFilter([...filter, forValue1])
         }
         setName('')
         setAcceptedFilters('')
@@ -48,7 +48,7 @@ export default function CreateFilterElement({
     return (
         <div className={'elk_filter_elements add'}>
             <div className={'elk_filter_element'}>
-                <label htmlFor="nameId">имя</label>
+                <label htmlFor="nameId">имя атрибута</label>
                 <select
                     name="nameName"
                     id="nameId"

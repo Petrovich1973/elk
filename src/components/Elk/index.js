@@ -18,15 +18,6 @@ const paramsDefault = {
 
 const tbList = [13, 16, 18, 38, 40, 42, 44, 62, 54, 55, 70]
 
-// filter element
-// {
-//     "name": "branch",
-//     "type": "EQUAL",
-//     "value": "2",
-//     "valueFrom": "",
-//     "valueTo": ""
-// }
-
 export default function Elk() {
     const [filterAttr, setFilterAttr] = React.useState([])
     const [filter, setFilter] = React.useState([])
@@ -34,14 +25,21 @@ export default function Elk() {
     const [params, setParams] = React.useState(paramsDefault)
     const [totalPages, setTotalPages] = React.useState(0)
     const [tb, setTb] = React.useState(38)
+    const [isPendingJournal, setIsPendingJournal] = React.useState(false)
+    const [initial, setInitial] = React.useState(Date.now())
 
     React.useEffect(() => {
         void getJournal()
+    }, [params.page, params.size, initial])
+
+    React.useEffect(() => {
+        // void getJournal()
         void getFilters()
     }, [])
 
     // получение журнала
     const getJournal = async () => {
+        setIsPendingJournal(true)
         try {
             const response = await axios({
                 url: `${remoteServer}/journal`,
@@ -57,6 +55,7 @@ export default function Elk() {
             const errorText = e.response.data || 'Что-то пошло не так :)'
             NotificationManager.error(errorText, statusCode, 4000)
         }
+        setIsPendingJournal(false)
 
     }
 
@@ -78,10 +77,13 @@ export default function Elk() {
     // console.log(filterAttr)
 
     const onChangePage = page => setParams(prev => ({...prev, page}))
-    const onChangeSize = size => setParams(prev => ({...prev, size}))
+    const onChangeSize = size => setParams(prev => ({page: 0, size}))
     const onChangeFilterTb = tb => setTb(tb)
     const onChangeFilter = filterList => setFilter(filterList)
-    const onAddFilter = filterList => setFilter(filterList)
+    const onSend = () => {
+        setParams(prev => ({...prev, page: 0}))
+        setInitial(Date.now())
+    }
 
     return (
         <div className={'elk_container'}>
@@ -94,10 +96,14 @@ export default function Elk() {
                 onChangeFilterTb,
                 onChangeFilter
             }}/>
+            <div>
+                <button onClick={() => onChangeFilter([])}>очистить фильтр</button>
+                <button disabled={isPendingJournal} onClick={onSend}>{isPendingJournal ? 'waiting...' :'применить фильтр'}</button>
+            </div>
             <CreateFilterElement {...{
                 filterAttr,
                 filter,
-                onAddFilter
+                onChangeFilter
             }}/>
             <Journal {...{journal}}/>
             <Pagination {...{
@@ -105,7 +111,8 @@ export default function Elk() {
                 currentPage: params.page,
                 pageCount: totalPages,
                 onChangePage,
-                onChangeSize
+                onChangeSize,
+                isPendingJournal
             }}/>
             <NotificationContainer/>
         </div>

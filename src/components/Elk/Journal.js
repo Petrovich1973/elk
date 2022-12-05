@@ -27,7 +27,7 @@ const tdList = {
 export default function Journal({journal = []}) {
 
     if (!journal.length) return (
-        <p>journal empty</p>
+        <p/>
     )
 
     return (

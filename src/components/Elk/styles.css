@@ -53,9 +53,11 @@
 .elk_filter_elements {
     display: flex;
     gap: 10px;
+    align-items: flex-end;
+    flex-wrap: wrap;
 }
 .elk_filter_elements.add {
-    border: 1px solid;
+    background-color: #e6e6e6;
     border-radius: 4px;
     padding: 20px;
     margin: 20px 0;
@@ -66,4 +68,18 @@
 .elk_filter_element {
     display: inline-flex;
     flex-direction: column;
+}
+.elk_filter_element.tag {
+    background-color: beige;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 2px 4px;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+.elk_filter_element.tag .delete {
+    color: coral;
+    cursor: pointer;
+    user-select: none;
 }
