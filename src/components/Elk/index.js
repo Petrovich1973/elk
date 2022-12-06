@@ -8,8 +8,8 @@ import {NotificationContainer, NotificationManager} from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
 import CreateFilterElement from "./CreateFilterElement"
 
-const remoteServer = 'http://localhost:3001'
-// const remoteServer = 'http://swagger-ci00080066-eiftgen1ds-tp-repca.apps.ift-gen1-ds.delta.sbrf.ru'
+// const remoteServer = 'http://localhost:3001'
+const remoteServer = 'http://swagger-ci00080066-eiftgen1ds-tp-repca.apps.ift-gen1-ds.delta.sbrf.ru'
 
 const paramsDefault = {
     page: 0,
@@ -27,6 +27,7 @@ export default function Elk() {
     const [tb, setTb] = React.useState(38)
     const [isPendingJournal, setIsPendingJournal] = React.useState(false)
     const [initial, setInitial] = React.useState(Date.now())
+    const [url, setUrl] = React.useState(remoteServer)
 
     React.useEffect(() => {
         void getJournal()
@@ -42,7 +43,7 @@ export default function Elk() {
         setIsPendingJournal(true)
         try {
             const response = await axios({
-                url: `${remoteServer}/journal`,
+                url: `${url}/journal`,
                 method: 'POST',
                 params: {...params, tb},
                 data: {filter}
@@ -64,7 +65,7 @@ export default function Elk() {
     const getFilters = async () => {
         try {
             const response = await axios({
-                url: `${remoteServer}/journal/filter`,
+                url: `${url}/journal/filter`,
                 method: 'GET'
             })
             setFilterAttr(response.data)
@@ -88,6 +89,10 @@ export default function Elk() {
 
     return (
         <div className={'elk_container'}>
+            <div>
+                <input type="text" value={url} onChange={(e) => setUrl(e.target.value)}/>
+                <button onClick={getFilters}>повторно получить фильтры</button>
+            </div>
             <h2>Title ELK page</h2>
             <Filter {...{
                 tb,
