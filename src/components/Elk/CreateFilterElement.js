@@ -55,7 +55,7 @@ export default function CreateFilterElement({
                     value={name}
                     onChange={onChangeName}>
                     <option value="">пусто</option>
-                    {filterAttr.map(attr => (
+                    {filterAttr.filter(attr => !filter.map(m => m.name).includes(attr.name)).map(attr => (
                         <option key={attr.name} value={attr.name}>{attr.name}</option>
                     ))}
                 </select>

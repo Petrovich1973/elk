@@ -68,7 +68,7 @@ export default function Elk() {
                 url: `${url}/journal/filter`,
                 method: 'GET'
             })
-            setFilterAttr(response.data)
+            setFilterAttr(response.data.filter(f => f.name !== 'tb'))
         } catch (e) {
             const statusCode = e?.response?.status || 'ERR_CONNECTION_REFUSED'
             const errorText = e?.response?.data || 'Что-то пошло не так :)'
@@ -76,7 +76,7 @@ export default function Elk() {
         }
     }
 
-    // console.log(filterAttr)
+    // console.table(filterAttr.map(m => ({name: m.name, fieldType: m.fieldType})))
 
     const onChangePage = page => setParams(prev => ({...prev, page}))
     const onChangeSize = size => setParams(prev => ({page: 0, size}))
