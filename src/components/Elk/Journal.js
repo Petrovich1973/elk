@@ -8,7 +8,7 @@ const tdList = {
     "depositNum": "",
     "epkId": "",
     "errorMessage": "",
-    "jrnExists": "false",
+    // "jrnExists": "false",
     "lastRetryTime": "",
     "office": "1106",
     "officeOperNo": "24",
@@ -44,7 +44,7 @@ export default function Journal({journal = []}) {
                 {journal.map((row, idxRow) => (
                     <tr key={idxRow}>
                         {Object.keys(tdList).map((key, idxCell) => (
-                            <td key={idxCell}>{tdList[key]}</td>
+                            <td key={idxCell}>{row[key]}</td>
                         ))}
                     </tr>
                 ))}
