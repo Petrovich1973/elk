@@ -90,3 +90,11 @@
     cursor: pointer;
     user-select: none;
 }
+.elk_filter_input-double {
+    display: flex;
+    align-items: center;
+    border: 1px solid;
+}
+.elk_filter_input-double input {
+    border: initial;
+}

@@ -8,8 +8,8 @@ import {NotificationContainer, NotificationManager} from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
 import CreateFilterElement from "./CreateFilterElement"
 
-// const remoteServer = 'http://localhost:3001'
-const remoteServer = 'http://swagger-ci00080066-eiftgen1ds-tp-repca.apps.ift-gen1-ds.delta.sbrf.ru'
+const remoteServer = 'http://localhost:3001'
+// const remoteServer = 'http://swagger-ci00080066-eiftgen1ds-tp-repca.apps.ift-gen1-ds.delta.sbrf.ru'
 
 const paramsDefault = {
     page: 0,
