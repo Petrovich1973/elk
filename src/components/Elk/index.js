@@ -8,8 +8,8 @@ import {NotificationContainer, NotificationManager} from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
 import CreateFilterElement from "./CreateFilterElement"
 
-const remoteServer = 'http://localhost:3001'
-// const remoteServer = 'http://swagger-ci00080066-eiftgen1ds-tp-repca.apps.ift-gen1-ds.delta.sbrf.ru'
+// const remoteServer = 'http://localhost:3001'
+const remoteServer = 'http://swagger-ci00080066-eiftgen1ds-tp-repca.apps.ift-gen1-ds.delta.sbrf.ru'
 
 const paramsDefault = {
     page: 0,
@@ -55,7 +55,10 @@ export default function Elk() {
             console.log(e)
             const statusCode = e?.response?.status || 'ERR_CONNECTION_REFUSED'
             const errorText = e?.response?.data || 'Что-то пошло не так :)'
-            NotificationManager.error(errorText, statusCode, 4000)
+            NotificationManager.error(errorText, statusCode, 8000)
+
+            setJournal([])
+            setTotalPages(0)
         }
         setIsPendingJournal(false)
 

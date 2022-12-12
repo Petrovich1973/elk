@@ -13,9 +13,9 @@ export default function FilterValueElement({
     const getMask = type => {
         switch (type) {
             case 'NUMBER':
-                return getExtension('[0-9]')
+                return getExtension('')
             case 'DATE_TIME':
-                return getExtension('9999-99-99T99:99:99.999')
+                return getExtension('')
             case 'DATE':
                 return getExtension('9999-99-99')
             default:
@@ -30,15 +30,15 @@ export default function FilterValueElement({
             case "BETWEEN":
                 return mask
             case 'GT':
-                return mask + 'GT'
+                return mask
             case 'GTE':
-                return mask + 'GTE'
+                return mask
             case 'LT':
-                return mask + 'LT'
+                return mask
             case 'LTE':
-                return mask + 'LTE'
+                return mask
             case 'LIKE':
-                return `%${mask}%`
+                return mask
             default:
                 return mask
         }

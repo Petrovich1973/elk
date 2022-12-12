@@ -12,13 +12,13 @@ export default function CreateFilterElement({
     const [acceptedValues2, setAcceptedValues2] = React.useState('')
 
     // console.log([...new Set(filterAttr.map(m => m.fieldType))])
-    console.log([...new Set(filterAttr.reduce((prev, current) => {
-        return prev.concat(current.acceptedFilters)
-    }, []))])
-    // console.table(filterAttr.map(m => ({
-    //     name: m.name,
-    //     fieldTyp: m.fieldType
-    // })))
+    // console.log([...new Set(filterAttr.reduce((prev, current) => {
+    //     return prev.concat(current.acceptedFilters)
+    // }, []))])
+    console.table(filterAttr.map(m => ({
+        name: m.name,
+        fieldTyp: m.fieldType
+    })))
 
     const onChangeName = e => {
         setName(e.target.value)
