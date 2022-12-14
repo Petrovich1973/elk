@@ -52,6 +52,12 @@
     white-space: nowrap;
     border: 1px solid;
 }
+.elk_journal .sortCurrent{
+    background-color: #909090;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+}
 
 .elk_filter {
     padding: 20px;

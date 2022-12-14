@@ -37,7 +37,7 @@ export default function Elk() {
 
     React.useEffect(() => {
         void getJournal()
-    }, [params.page, params.size, initial])
+    }, [params.page, params.size, sort.sortBy, sort.sortDir, initial])
 
     React.useEffect(() => {
         // void getJournal()
@@ -97,6 +97,10 @@ export default function Elk() {
         setParams(prev => ({...prev, page: 0}))
         setInitial(Date.now())
     }
+    const onChangeSort = value => {
+        console.log(value)
+        setSort(value)
+    }
 
     return (
         <div className={'elk_container'}>
@@ -116,14 +120,15 @@ export default function Elk() {
             }}/>
             <div>
                 <button onClick={() => onChangeFilter([])}>очистить фильтр</button>
-                <button disabled={isPendingJournal} onClick={onSend}>{isPendingJournal ? 'waiting...' :'применить фильтр'}</button>
+                <button disabled={isPendingJournal}
+                        onClick={onSend}>{isPendingJournal ? 'waiting...' : 'применить фильтр'}</button>
             </div>
             <CreateFilterElement {...{
                 filterAttr,
                 filter,
                 onChangeFilter
             }}/>
-            <Journal {...{journal}}/>
+            <Journal {...{journal, sort, onChangeSort}}/>
             <Pagination {...{
                 size: params.size,
                 currentPage: params.page,
