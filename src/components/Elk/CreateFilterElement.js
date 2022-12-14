@@ -17,7 +17,8 @@ export default function CreateFilterElement({
     // }, []))])
     console.table(filterAttr.map(m => ({
         name: m.name,
-        fieldTyp: m.fieldType
+        fieldTyp: m.fieldType,
+        acceptedFilters: m.acceptedFilters.join()
     })))
 
     const onChangeName = e => {

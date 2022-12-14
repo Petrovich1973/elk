@@ -6,7 +6,8 @@ export default function Filter({
                                    onChangeFilterTb = () => console.log('Tb change'),
                                    filter = [],
                                    filterAttr = [],
-                                   onChangeFilter = () => console.log('Filter change')
+                                   onChangeFilter = () => console.log('Filter change'),
+                                   totalElements = 0
                                }) {
 
     const onDeleteTag = el => {
@@ -16,7 +17,10 @@ export default function Filter({
 
     return (
         <div className={'elk_filter'}>
-            <h3>Filter</h3>
+            <div className={'elk_filter_header'}>
+                <h3>Filter</h3>
+                <h3><small>Найдено строк:</small> {totalElements.toLocaleString() || 0}</h3>
+            </div>
             <div className={'elk_filter_elements'}>
                 <div className={'elk_filter_element'}>
                     <label htmlFor="TbId">Тербанк</label>

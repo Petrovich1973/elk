@@ -13,9 +13,9 @@ export default function FilterValueElement({
     const getMask = type => {
         switch (type) {
             case 'NUMBER':
-                return getExtension('')
+                return getExtension('999999999999999999999999')
             case 'DATE_TIME':
-                return getExtension('')
+                return getExtension('9999-99-99T99:99:99.999999')
             case 'DATE':
                 return getExtension('9999-99-99')
             default:
@@ -48,6 +48,7 @@ export default function FilterValueElement({
         <div className={'elk_filter_input-double'}>
             <InputMask
                 mask={getMask(getFieldType)}
+                format="####"
                 maskChar={null}
                 disabled={!acceptedFilters}
                 type="text"

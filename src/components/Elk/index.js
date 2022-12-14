@@ -15,6 +15,10 @@ const paramsDefault = {
     page: 0,
     size: 20
 }
+const sortDefault = {
+    sortBy: 'branch',
+    sortDir: 'asc' //[asc desc]
+}
 
 const tbList = [13, 16, 18, 38, 40, 42, 44, 62, 54, 55, 70]
 
@@ -24,10 +28,12 @@ export default function Elk() {
     const [journal, setJournal] = React.useState([])
     const [params, setParams] = React.useState(paramsDefault)
     const [totalPages, setTotalPages] = React.useState(0)
+    const [totalElements, setTotalElements] = React.useState(0)
     const [tb, setTb] = React.useState(38)
     const [isPendingJournal, setIsPendingJournal] = React.useState(false)
     const [initial, setInitial] = React.useState(Date.now())
     const [url, setUrl] = React.useState(remoteServer)
+    const [sort, setSort] = React.useState(sortDefault)
 
     React.useEffect(() => {
         void getJournal()
@@ -45,11 +51,12 @@ export default function Elk() {
             const response = await axios({
                 url: `${url}/journal`,
                 method: 'POST',
-                params: {...params, tb},
+                params: {...params, tb, sort: `${sort.sortBy},${sort.sortDir}`},
                 data: {filter}
             })
             setJournal(response.data.content)
             setTotalPages(response.data.totalPages)
+            setTotalElements(response.data.totalElements)
 
         } catch (e) {
             console.log(e)
@@ -59,6 +66,7 @@ export default function Elk() {
 
             setJournal([])
             setTotalPages(0)
+            setTotalElements(0)
         }
         setIsPendingJournal(false)
 
@@ -102,6 +110,7 @@ export default function Elk() {
                 tbList,
                 filterAttr,
                 filter,
+                totalElements,
                 onChangeFilterTb,
                 onChangeFilter
             }}/>

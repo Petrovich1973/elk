@@ -44,7 +44,8 @@ export default function Journal({journal = []}) {
                 {journal.map((row, idxRow) => (
                     <tr key={idxRow}>
                         {Object.keys(tdList).map((key, idxCell) => (
-                            <td key={idxCell}>{row[key]}</td>
+                            <td key={idxCell}>{'errorMessage' === key ?
+                                <div className={'wrapNormal'}>{row[key]}</div> : row[key]}</td>
                         ))}
                     </tr>
                 ))}

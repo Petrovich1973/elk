@@ -4,6 +4,9 @@
 .elk_container button, .elk_container input {
     padding: 4px 8px;
 }
+.elk_container .wrapNormal {
+    white-space: normal;
+}
 .elk_pagination {
     display: flex;
     justify-content: space-between;
@@ -53,6 +56,10 @@
 .elk_filter {
     padding: 20px;
     border: 1px solid;
+}
+.elk_filter_header {
+    display: flex;
+    justify-content: space-between;
 }
 .elk_filter h3 {
     margin-top: 0;
