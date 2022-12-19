@@ -15,11 +15,11 @@ export default function CreateFilterElement({
     // console.log([...new Set(filterAttr.reduce((prev, current) => {
     //     return prev.concat(current.acceptedFilters)
     // }, []))])
-    console.table(filterAttr.map(m => ({
-        name: m.name,
-        fieldTyp: m.fieldType,
-        acceptedFilters: m.acceptedFilters.join()
-    })))
+    // console.table(filterAttr.map(m => ({
+    //     name: m.name,
+    //     fieldTyp: m.fieldType,
+    //     acceptedFilters: m.acceptedFilters.join()
+    // })))
 
     const onChangeName = e => {
         setName(e.target.value)

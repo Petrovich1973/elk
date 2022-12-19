@@ -72,6 +72,34 @@ export default function Elk() {
 
     }
 
+    // повторная обработка
+    const putJournal = async (f = null) => {
+        console.log(f)
+        setIsPendingJournal(true)
+        try {
+            const dataFilter = f ? [f] : filter
+            const response = await axios({
+                url: `${url}/journal`,
+                method: 'PUT',
+                params: {tb},
+                data: {filter: dataFilter}
+            })
+            const statusCode = 'Успешный запрос!'
+            const text = `${response?.data} повторно обработано`
+            response?.data > 0
+                ? NotificationManager.success(text, statusCode, 8000)
+                : NotificationManager.info(text, statusCode, 8000)
+
+        } catch (e) {
+            console.log(e)
+            const statusCode = e?.response?.status || 'ERR_CONNECTION_REFUSED'
+            const errorText = e?.response?.data || 'Что-то пошло не так :)'
+            NotificationManager.error(errorText, statusCode, 8000)
+        }
+        setIsPendingJournal(false)
+
+    }
+
     // получение фильтров
     const getFilters = async () => {
         try {
@@ -97,10 +125,7 @@ export default function Elk() {
         setParams(prev => ({...prev, page: 0}))
         setInitial(Date.now())
     }
-    const onChangeSort = value => {
-        console.log(value)
-        setSort(value)
-    }
+    const onChangeSort = value => setSort(value)
 
     return (
         <div className={'elk_container'}>
@@ -118,17 +143,31 @@ export default function Elk() {
                 onChangeFilterTb,
                 onChangeFilter
             }}/>
-            <div>
-                <button onClick={() => onChangeFilter([])}>очистить фильтр</button>
-                <button disabled={isPendingJournal}
-                        onClick={onSend}>{isPendingJournal ? 'waiting...' : 'применить фильтр'}</button>
+            <div className={'elk_buttons'}>
+                <div>
+                    <button
+                        style={{backgroundColor: '#ffd8d8', color: '#2a2a2a'}}
+                        onClick={() => onChangeFilter([])}>очистить фильтр</button>
+                    <button
+                        disabled={isPendingJournal}
+                        onClick={onSend}>{isPendingJournal ? 'waiting...' : 'применить фильтр'}
+                    </button>
+                </div>
+                <div>
+                    <button
+                        disabled={!totalElements}
+                        style={{backgroundColor: '#666666', color: '#ffffff'}}
+                        onClick={() => putJournal()}>повторная обработка
+                    </button>
+
+                </div>
             </div>
             <CreateFilterElement {...{
                 filterAttr,
                 filter,
                 onChangeFilter
             }}/>
-            <Journal {...{journal, sort, onChangeSort}}/>
+            <Journal {...{journal, sort, onChangeSort, putJournal}}/>
             <Pagination {...{
                 size: params.size,
                 currentPage: params.page,

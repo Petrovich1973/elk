@@ -24,17 +24,42 @@ const tdList = {
     "untb": ""
 }
 
+const elementFilterExample = {
+    attributeDescription: "нал./безн.",
+    attributeName: "CASH_FLAG",
+    attributeType: "string",
+    columnOrder: 15,
+    defaultValue: [
+        {
+            name: 'Наличный',
+            value: 'нал.'
+        },
+        {
+            name: 'Безналичный',
+            value: 'безн.'
+        }
+    ],
+    filterOperation: "=",
+    filterOrder: 10,
+    multiselect: false,
+    reportId: "vkl_11",
+    required: false,
+    visible: true,
+    visualType: null
+}
+
 export default function Journal({
                                     journal = [],
                                     sort: {sortBy = 'id', sortDir = 'asc'},
-                                    onChangeSort = () => console.log('onChangeSort')
+                                    onChangeSort = () => console.log('onChangeSort'),
+                                    putJournal = () => console.log('putJournal')
                                 }) {
 
     const onChange = key => {
         let newSort = {sortBy: key, sortDir}
-        if(key === sortBy && sortDir === 'asc') newSort.sortDir = 'desc'
-        if(key === sortBy && sortDir === 'desc') newSort.sortDir = 'asc'
-        if(key !== sortBy) newSort.sortDir = 'asc'
+        if (key === sortBy && sortDir === 'asc') newSort.sortDir = 'desc'
+        if (key === sortBy && sortDir === 'desc') newSort.sortDir = 'asc'
+        if (key !== sortBy) newSort.sortDir = 'asc'
         onChangeSort(newSort)
     }
 
@@ -47,6 +72,7 @@ export default function Journal({
             <table>
                 <thead>
                 <tr>
+                    <th/>
                     {Object.keys(tdList).map((key, idxCell) => (
                         <th
                             onClick={() => onChange(key)}
@@ -57,6 +83,11 @@ export default function Journal({
                 <tbody>
                 {journal.map((row, idxRow) => (
                     <tr key={idxRow}>
+                        <td>
+                            <button onClick={() => putJournal({name: 'id', type: 'EQUAL', value: row?.id})}>
+                                push
+                            </button>
+                        </td>
                         {Object.keys(tdList).map((key, idxCell) => (
                             <td key={idxCell}>{'errorMessage' === key ?
                                 <div className={'wrapNormal'}>{row[key]}</div> : row[key]}</td>

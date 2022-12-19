@@ -11,7 +11,7 @@ export default function Pagination({
                                    }) {
     const handlePageClick = e => {
         console.log(e.selected)
-        onChangePage(e.selected)
+        if(!isPendingJournal) onChangePage(e.selected)
     }
     return (
         <div className={'elk_pagination'}>
