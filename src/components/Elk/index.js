@@ -7,6 +7,7 @@ import Pagination from "./Pagination"
 import {NotificationContainer, NotificationManager} from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
 import CreateFilterElement from "./CreateFilterElement"
+import DialogModal from "./DialogModal";
 
 // const remoteServer = 'http://localhost:3001'
 const remoteServer = 'http://swagger-ci00080066-eiftgen1ds-tp-repca.apps.ift-gen1-ds.delta.sbrf.ru'
@@ -34,6 +35,7 @@ export default function Elk() {
     const [initial, setInitial] = React.useState(Date.now())
     const [url, setUrl] = React.useState(remoteServer)
     const [sort, setSort] = React.useState(sortDefault)
+    const [headers, setHeaders] = React.useState(null)
 
     React.useEffect(() => {
         void getJournal()
@@ -100,6 +102,28 @@ export default function Elk() {
 
     }
 
+    // получение заголовков
+    const getHeaders = async (params = null) => {
+        console.log(params)
+        setIsPendingJournal(true)
+        try {
+            const response = await axios({
+                url: `${url}/journal/headers`,
+                method: 'GET',
+                params: {...params}
+            })
+            setHeaders(response.data)
+
+        } catch (e) {
+            console.log(e)
+            const statusCode = e?.response?.status || 'ERR_CONNECTION_REFUSED'
+            const errorText = e?.response?.data || 'Что-то пошло не так :)'
+            NotificationManager.error(errorText, statusCode, 8000)
+        }
+        setIsPendingJournal(false)
+
+    }
+
     // получение фильтров
     const getFilters = async () => {
         try {
@@ -126,6 +150,7 @@ export default function Elk() {
         setInitial(Date.now())
     }
     const onChangeSort = value => setSort(value)
+    const onCloseModal = () => setHeaders(null)
 
     return (
         <div className={'elk_container'}>
@@ -133,7 +158,7 @@ export default function Elk() {
                 <input type="text" value={url} onChange={(e) => setUrl(e.target.value)}/>
                 <button onClick={getFilters}>повторно получить фильтры</button>
             </div>
-            <h2>Title ELK page</h2>
+            <h2>ELK</h2>
             <Filter {...{
                 tb,
                 tbList,
@@ -146,9 +171,10 @@ export default function Elk() {
             <div className={'elk_buttons'}>
                 <div>
                     <button
-                        style={{backgroundColor: '#ffd8d8', color: '#2a2a2a'}}
+                        style={{backgroundColor: '#ffd8d8', color: '#2a2a2a', border: 'none'}}
                         onClick={() => onChangeFilter([])}>очистить фильтр</button>
                     <button
+                        style={{backgroundColor: '#ced683', color: '#2a2a2a', border: 'none'}}
                         disabled={isPendingJournal}
                         onClick={onSend}>{isPendingJournal ? 'waiting...' : 'применить фильтр'}
                     </button>
@@ -156,7 +182,7 @@ export default function Elk() {
                 <div>
                     <button
                         disabled={!totalElements}
-                        style={{backgroundColor: '#666666', color: '#ffffff'}}
+                        style={{backgroundColor: '#666666', color: '#ffffff', border: 'none'}}
                         onClick={() => putJournal()}>повторная обработка
                     </button>
 
@@ -167,7 +193,7 @@ export default function Elk() {
                 filter,
                 onChangeFilter
             }}/>
-            <Journal {...{journal, sort, onChangeSort, putJournal}}/>
+            <Journal {...{journal, sort, onChangeSort, putJournal, getHeaders}}/>
             <Pagination {...{
                 size: params.size,
                 currentPage: params.page,
@@ -176,6 +202,7 @@ export default function Elk() {
                 onChangeSize,
                 isPendingJournal
             }}/>
+            {headers && <DialogModal onClose={onCloseModal} content={headers}/>}
             <NotificationContainer/>
         </div>
     )

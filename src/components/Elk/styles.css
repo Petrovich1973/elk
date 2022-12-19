@@ -4,22 +4,27 @@
     flex-direction: column;
     max-width: 100%;
 }
+
 .elk_buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
 .elk_container button, .elk_container input {
     padding: 4px 8px;
 }
+
 .elk_container .wrapNormal {
     white-space: normal;
 }
+
 .elk_pagination {
     display: flex;
     justify-content: space-between;
     padding: 20px 0;
 }
+
 .elk_pagination ul {
     display: flex;
     padding: 0;
@@ -27,11 +32,13 @@
     list-style: none;
     gap: 2px;
 }
+
 .elk_pagination ul li {
     display: flex;
     border: 1px solid #ccc;
     cursor: pointer;
 }
+
 .elk_pagination ul li a {
     display: flex;
     justify-content: center;
@@ -39,6 +46,7 @@
     min-width: 27px;
     padding: 2px;
 }
+
 .elk_pagination ul li:hover, .elk_pagination ul li.selected {
     background: black;
     color: white;
@@ -50,9 +58,11 @@
     max-height: 100%;
     overflow: auto;
 }
+
 .elk_journal table {
     border-collapse: collapse;
 }
+
 .elk_journal table th, .elk_journal table td {
     padding: 4px 8px;
     text-align: left;
@@ -60,15 +70,18 @@
     white-space: nowrap;
     border: 1px solid;
 }
+
 .elk_journal table th {
     cursor: pointer;
     user-select: none;
 }
+
 .elk_journal table th:hover {
     background-color: #dbdbdb;
     color: black;
 }
-.elk_journal .sortCurrent{
+
+.elk_journal .sortCurrent {
     background-color: #909090;
     color: white;
     cursor: pointer;
@@ -79,32 +92,39 @@
     padding: 20px;
     border: 1px solid;
 }
+
 .elk_filter_header {
     display: flex;
     justify-content: space-between;
 }
+
 .elk_filter h3 {
     margin-top: 0;
 }
+
 .elk_filter_elements {
     display: flex;
     gap: 10px;
     align-items: flex-end;
     flex-wrap: wrap;
 }
+
 .elk_filter_elements.add {
     background-color: #e6e6e6;
     border-radius: 4px;
     padding: 20px;
     margin: 20px 0;
 }
+
 .elk_filter select, .elk_filter_element select, .elk_filter_element input {
     padding: 4px;
 }
+
 .elk_filter_element {
     display: inline-flex;
     flex-direction: column;
 }
+
 .elk_filter_element.tag {
     background-color: beige;
     border: 1px solid #cccccc;
@@ -114,16 +134,85 @@
     align-items: center;
     gap: 4px;
 }
+
 .elk_filter_element.tag .delete {
     color: coral;
     cursor: pointer;
     user-select: none;
 }
+
 .elk_filter_input-double {
     display: flex;
     align-items: center;
     border: 1px solid;
 }
+
 .elk_filter_input-double input {
     border: initial;
+}
+
+.elk_modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.elk_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .7);
+}
+
+.elk_dialog {
+    position: relative;
+    max-height: 100%;
+    overflow: hidden;
+    background-color: antiquewhite;
+    display: flex;
+    flex-direction: column;
+}
+
+.elk_dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ebdcc6;
+}
+
+.elk_dialog-header > * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 50px;
+}
+
+.elk_dialog-header .close {
+    background-color: transparent;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.elk_dialog-content {
+    padding: 50px;
+    overflow: auto;
+    max-height: 100%;
+    min-width: 200px;
+}
+
+.elk_dialog-content table tr td:first-child {
+    text-align: right;
+}
+
+.elk_dialog-content table td {
+    padding: 5px 10px;
 }

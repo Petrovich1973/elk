@@ -52,7 +52,8 @@ export default function Journal({
                                     journal = [],
                                     sort: {sortBy = 'id', sortDir = 'asc'},
                                     onChangeSort = () => console.log('onChangeSort'),
-                                    putJournal = () => console.log('putJournal')
+                                    putJournal = () => console.log('putJournal'),
+                                    getHeaders = () => console.log('getHeaders')
                                 }) {
 
     const onChange = key => {
@@ -87,10 +88,13 @@ export default function Journal({
                             <button onClick={() => putJournal({name: 'id', type: 'EQUAL', value: row?.id})}>
                                 push
                             </button>
+                            <button onClick={() => getHeaders({tb: row?.tb, id: row?.id})}>
+                                headers view
+                            </button>
                         </td>
                         {Object.keys(tdList).map((key, idxCell) => (
                             <td key={idxCell}>{'errorMessage' === key ?
-                                <div className={'wrapNormal'}>{row[key]}</div> : row[key]}</td>
+                                <div className={'wrapNormal'}>{row[key]}</div> : row[key].trim()}</td>
                         ))}
                     </tr>
                 ))}
