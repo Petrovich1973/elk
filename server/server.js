@@ -14,7 +14,10 @@ const DB_ADDRESS = 'http://localhost'
 const DB_PORT = 3002
 const DB_URL = `${DB_ADDRESS}:${DB_PORT}`
 
+const delay = ms => new Promise(yea => setTimeout(yea, ms))
+
 server.get('/test', async (req, res) => {
+    await delay(2000)
     res.send({date: Date.now()})
 })
 
