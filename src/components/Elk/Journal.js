@@ -53,7 +53,8 @@ export default function Journal({
                                     sort: {sortBy = 'id', sortDir = 'asc'},
                                     onChangeSort = () => console.log('onChangeSort'),
                                     putJournal = () => console.log('putJournal'),
-                                    getHeaders = () => console.log('getHeaders')
+                                    getHeaders = () => console.log('getHeaders'),
+                                    url = ''
                                 }) {
 
     const onChange = key => {
@@ -91,6 +92,8 @@ export default function Journal({
                             <button onClick={() => getHeaders({tb: row?.tb, id: row?.id})}>
                                 headers view
                             </button>
+                            <a target="_blank" href={`${url}/journal/kafka?tb=${row?.tb}&id=${row?.id}`}>тело кафки</a>
+                            <a target="_blank" href={`${url}/journal/db?tb=${row?.tb}&id=${row?.id}`}>тело db</a>
                         </td>
                         {Object.keys(tdList).map((key, idxCell) => (
                             <td key={idxCell}>{'errorMessage' === key ?

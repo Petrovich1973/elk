@@ -71,6 +71,13 @@
     border: 1px solid;
 }
 
+.elk_journal table td a {
+    display: inline-block;
+    padding: 4px 8px;
+    white-space: nowrap;
+    border: 1px solid;
+}
+
 .elk_journal table th {
     cursor: pointer;
     user-select: none;

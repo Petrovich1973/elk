@@ -181,8 +181,8 @@ export default function Elk() {
                 </div>
                 <div>
                     <button
-                        disabled={!totalElements}
                         style={{backgroundColor: '#666666', color: '#ffffff', border: 'none'}}
+                        disabled={!totalElements}
                         onClick={() => putJournal()}>повторная обработка
                     </button>
 
@@ -193,7 +193,7 @@ export default function Elk() {
                 filter,
                 onChangeFilter
             }}/>
-            <Journal {...{journal, sort, onChangeSort, putJournal, getHeaders}}/>
+            <Journal {...{journal, sort, onChangeSort, putJournal, getHeaders, url}}/>
             <Pagination {...{
                 size: params.size,
                 currentPage: params.page,
