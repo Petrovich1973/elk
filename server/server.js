@@ -14,6 +14,10 @@ const DB_ADDRESS = 'http://localhost'
 const DB_PORT = 3002
 const DB_URL = `${DB_ADDRESS}:${DB_PORT}`
 
+server.get('/test', async (req, res) => {
+    res.send({date: Date.now()})
+})
+
 server.post('/journal', async (req, res) => {
 
     const response = {

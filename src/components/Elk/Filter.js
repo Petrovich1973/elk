@@ -19,7 +19,7 @@ export default function Filter({
         <div className={'elk_filter'}>
             <div className={'elk_filter_header'}>
                 <h3>Filter</h3>
-                <h3><small>Найдено строк:</small> {totalElements.toLocaleString() || 0}</h3>
+                <h3><small>Найдено:</small> {totalElements.toLocaleString() || 0}</h3>
             </div>
             <div className={'elk_filter_elements'}>
                 <div className={'elk_filter_element'}>
