@@ -9,6 +9,7 @@ export default function Test() {
     const [waiting, setWaiting] = React.useState(false)
     const [date, setDate] = React.useState(Date.now())
     const [count, setCount] = React.useState(0)
+    const [error, setError] = React.useState(false)
 
     // React.useEffect(() => {
     //     void getJournal()
@@ -29,8 +30,10 @@ export default function Test() {
             const response = await axios.get(`${url}/test`)
             setDate(response.data.date)
             setCount(count + 1)
+            setError(false)
         } catch (e) {
             setCount(count + 1)
+            setError(true)
         }
         setWaiting(false)
     }
@@ -45,6 +48,7 @@ export default function Test() {
         }}>
             <h1>{date.toLocaleString()}</h1>
             {waiting ? <p>waiting</p> : <h3>{count}</h3>}
+            {error ? <h3 style={{color: "red"}}>error</h3> : <h3 style={{color: "green"}}>succes</h3>}
         </div>
     )
 }
