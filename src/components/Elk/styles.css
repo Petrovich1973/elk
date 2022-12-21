@@ -15,6 +15,11 @@
     padding: 4px 8px;
 }
 
+.elk_container button:disabled, .elk_container input:disabled, .elk_container select:disabled {
+    cursor: default !important;
+    opacity: .5;
+}
+
 .elk_container .wrapNormal {
     white-space: normal;
 }

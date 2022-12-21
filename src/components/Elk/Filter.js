@@ -1,7 +1,7 @@
 import React from "react"
 
 export default function Filter({
-                                   tb = 38,
+                                   tb = '',
                                    tbList = [],
                                    onChangeFilterTb = () => console.log('Tb change'),
                                    filter = [],
@@ -43,6 +43,7 @@ export default function Filter({
                 <div className={'elk_filter_element'}>
                     <label htmlFor="TbId">Тербанк</label>
                     <select name="TbName" id="TbId" value={tb} onChange={e => onChangeFilterTb(e.target.value)}>
+                        <option value={''}>пусто</option>
                         {tbList.map(element => (
                             <option key={element} value={element}>Tb {element}</option>
                         ))}

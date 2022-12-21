@@ -21,7 +21,9 @@ const sortDefault = {
     sortDir: 'asc' //[asc desc]
 }
 
-const tbList = [13, 16, 18, 38, 40, 42, 44, 62, 54, 55, 70]
+// const tbList = [13, 16, 18, 38, 40, 42, 44, 62, 54, 55, 70]
+
+const lsKey = 'BOFL_v001'
 
 export default function Elk() {
     const [filterAttr, setFilterAttr] = React.useState([])
@@ -30,24 +32,42 @@ export default function Elk() {
     const [params, setParams] = React.useState(paramsDefault)
     const [totalPages, setTotalPages] = React.useState(0)
     const [totalElements, setTotalElements] = React.useState(0)
-    const [tb, setTb] = React.useState(38)
+    const [tb, setTb] = React.useState('')
     const [isPendingJournal, setIsPendingJournal] = React.useState(false)
     const [initial, setInitial] = React.useState(Date.now())
     const [url, setUrl] = React.useState(remoteServer)
     const [sort, setSort] = React.useState(sortDefault)
     const [headers, setHeaders] = React.useState(null)
+    const [tbList, setTbList] = React.useState([])
+
+    const getLs = () => {
+        const ls = localStorage.getItem(lsKey)
+        return JSON.parse(ls)
+    }
+
+    const setLs = (value) => {
+        const ls = getLs() || {}
+        localStorage.setItem(lsKey, JSON.stringify({...ls, ...value}))
+    }
 
     React.useEffect(() => {
-        void getJournal()
-    }, [params.page, params.size, sort.sortBy, sort.sortDir, initial])
+        const newTb = getLs()?.tb || tb
+        setTb(newTb)
+    }, [])
 
     React.useEffect(() => {
-        // void getJournal()
+        console.log('tb=', tb)
+        if (tb) void getJournal()
+    }, [params.page, params.size, sort.sortBy, sort.sortDir, tb, initial])
+
+    React.useEffect(() => {
         void getFilters()
+        void getTbList()
     }, [])
 
     // получение журнала
     const getJournal = async () => {
+        console.log('fetch getJournal')
         setIsPendingJournal(true)
         try {
             const response = await axios({
@@ -87,7 +107,7 @@ export default function Elk() {
                 data: {filter: dataFilter}
             })
             const statusCode = 'Успешный запрос!'
-            const text = `${response?.data} повторно обработано`
+            const text = `${response?.data} отправлено на повторную обработку`
             response?.data > 0
                 ? NotificationManager.success(text, statusCode, 8000)
                 : NotificationManager.info(text, statusCode, 8000)
@@ -139,13 +159,30 @@ export default function Elk() {
         }
     }
 
-    // console.table(filterAttr.map(m => ({name: m.name, fieldType: m.fieldType})))
+    // получение списка ТБ
+    const getTbList = async () => {
+        try {
+            const response = await axios({
+                url: `${url}/journal/tbs`,
+                method: 'GET'
+            })
+            setTbList(response.data)
+        } catch (e) {
+            const statusCode = e?.response?.status || 'ERR_CONNECTION_REFUSED'
+            const errorText = e?.response?.data || 'Что-то пошло не так :)'
+            NotificationManager.error(errorText, statusCode, 4000)
+        }
+    }
 
     const onChangePage = page => setParams(prev => ({...prev, page}))
     const onChangeSize = size => setParams(prev => ({page: 0, size}))
-    const onChangeFilterTb = tb => setTb(tb)
+    const onChangeFilterTb = value => {
+        setLs({tb: value})
+        setTb(value)
+    }
     const onChangeFilter = filterList => setFilter(filterList)
     const onSend = () => {
+        console.log('onSend')
         setParams(prev => ({...prev, page: 0}))
         setInitial(Date.now())
     }
@@ -171,17 +208,18 @@ export default function Elk() {
             <div className={'elk_buttons'}>
                 <div>
                     <button
-                        style={{backgroundColor: '#ffd8d8', color: '#2a2a2a', border: 'none'}}
-                        onClick={() => onChangeFilter([])}>очистить фильтр</button>
+                        style={{backgroundColor: '#ffd8d8', color: '#2a2a2a', border: 'none', cursor: "pointer"}}
+                        onClick={() => onChangeFilter([])}>очистить фильтр
+                    </button>
                     <button
-                        style={{backgroundColor: '#ced683', color: '#2a2a2a', border: 'none'}}
-                        disabled={isPendingJournal}
+                        style={{backgroundColor: '#ced683', color: '#2a2a2a', border: 'none', cursor: "pointer"}}
+                        disabled={isPendingJournal || !tb}
                         onClick={onSend}>{isPendingJournal ? 'waiting...' : 'применить фильтр'}
                     </button>
                 </div>
                 <div>
                     <button
-                        style={{backgroundColor: '#666666', color: '#ffffff', border: 'none'}}
+                        style={{backgroundColor: '#666666', color: '#ffffff', border: 'none', cursor: "pointer"}}
                         disabled={!totalElements}
                         onClick={() => putJournal()}>повторная обработка
                     </button>
