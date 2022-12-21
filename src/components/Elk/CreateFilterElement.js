@@ -11,16 +11,6 @@ export default function CreateFilterElement({
     const [acceptedValues, setAcceptedValues] = React.useState('')
     const [acceptedValues2, setAcceptedValues2] = React.useState('')
 
-    // console.log([...new Set(filterAttr.map(m => m.fieldType))])
-    // console.log([...new Set(filterAttr.reduce((prev, current) => {
-    //     return prev.concat(current.acceptedFilters)
-    // }, []))])
-    // console.table(filterAttr.map(m => ({
-    //     name: m.name,
-    //     fieldTyp: m.fieldType,
-    //     acceptedFilters: m.acceptedFilters.join()
-    // })))
-
     const onChangeName = e => {
         setName(e.target.value)
         setAcceptedFilters('')
@@ -45,10 +35,18 @@ export default function CreateFilterElement({
             valueFrom: acceptedValues,
             valueTo: acceptedValues2
         }
+        const notValue = {
+            name: name,
+            type: acceptedFilters
+        }
         if (acceptedFilters === 'BETWEEN') {
             onChangeFilter([...filter, forValue2])
         } else {
-            onChangeFilter([...filter, forValue1])
+            if (acceptedFilters === 'IS_NULL' || acceptedFilters === 'IS_NOT_NULL') {
+                onChangeFilter([...filter, notValue])
+            } else {
+                onChangeFilter([...filter, forValue1])
+            }
         }
         setName('')
         setAcceptedFilters('')
@@ -72,12 +70,6 @@ export default function CreateFilterElement({
 
     const getFieldType = () => filterAttr
         .find(attr => attr.name === name)?.fieldType
-
-    // STRING
-    // NUMBER
-    // DATE
-    // DATE_TIME
-    // ENUM
 
     return (
         <div className={'elk_filter_elements add'}>
@@ -112,37 +104,43 @@ export default function CreateFilterElement({
                         ))}
                 </select>
             </div>
-            <div className={'elk_filter_element'}>
-                <label
-                    htmlFor="acceptedValuesId">значение {getFieldType()}</label>
-                {isENUM('fieldType', 'ENUM')
-                    ? (
-                        <select
-                            disabled={!acceptedFilters}
-                            name="acceptedValuesName"
-                            id="acceptedValuesId"
-                            value={acceptedValues}
-                            onChange={e => setAcceptedValues(e.target.value)}>
-                            <option value="">пусто</option>
+            {!(acceptedFilters === '' || acceptedFilters === 'IS_NULL' || acceptedFilters === 'IS_NOT_NULL')
+                ? (
+                    <div className={'elk_filter_element'}>
+                        <label
+                            htmlFor="acceptedValuesId">значение {getFieldType()}</label>
+                        {isENUM('fieldType', 'ENUM')
+                            ? (
+                                <select
+                                    disabled={!acceptedFilters}
+                                    name="acceptedValuesName"
+                                    id="acceptedValuesId"
+                                    value={acceptedValues}
+                                    onChange={e => setAcceptedValues(e.target.value)}>
+                                    <option value="">пусто</option>
 
-                            {activeAcceptedList('acceptedValues').map(el => (
-                                <option key={el} value={el}>{el}</option>
-                            ))}
-                        </select>
-                    )
-                    : (
-                        <FilterValueElement {...{
-                            acceptedFilters,
-                            acceptedValues,
-                            setAcceptedValues,
-                            acceptedValues2,
-                            setAcceptedValues2,
-                            getFieldType: getFieldType()
-                        }}/>
-                    )}
-            </div>
+                                    {activeAcceptedList('acceptedValues').map(el => (
+                                        <option key={el} value={el}>{el}</option>
+                                    ))}
+                                </select>
+                            )
+                            : (
+                                <FilterValueElement {...{
+                                    acceptedFilters,
+                                    acceptedValues,
+                                    setAcceptedValues,
+                                    acceptedValues2,
+                                    setAcceptedValues2,
+                                    getFieldType: getFieldType()
+                                }}/>
+                            )}
+                    </div>
+                )
+                : null}
             <button
-                disabled={!name || !acceptedFilters || !acceptedValues}
+                disabled={!name
+                    || !acceptedFilters
+                    || (!acceptedValues && (acceptedFilters !== 'IS_NULL' && acceptedFilters !== 'IS_NOT_NULL'))}
                 onClick={onClickButtonAdd}>
                 добавить фильтр
             </button>

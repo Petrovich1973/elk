@@ -15,6 +15,24 @@ export default function Filter({
         onChangeFilter(newFilterList)
     }
 
+    const getValue = (el) => {
+        if(el?.value) {
+            return (
+                <span>
+                    &nbsp;/&nbsp;{el?.value}
+                </span>
+            )
+        }
+        if(el?.valueFrom && el?.valueTo) {
+            return (
+                <span>
+                    &nbsp;/&nbsp;{el?.valueFrom}-{el?.valueTo}
+                </span>
+            )
+        }
+        return ('')
+    }
+
     return (
         <div className={'elk_filter'}>
             <div className={'elk_filter_header'}>
@@ -32,7 +50,7 @@ export default function Filter({
                 </div>
                 {filter.map((el, i) => (
                     <div key={i} className={'elk_filter_element tag'}>
-                        <span>{el.name} / {el.type} / {el?.value || `${el?.valueFrom}-${el?.valueTo}`}</span>
+                        <span>{el.name} / {el.type}{getValue(el)}</span>
                         <span title={'удалить'} className={'delete'} onClick={() => onDeleteTag(el)}>&#10005;</span>
                     </div>
                 ))}

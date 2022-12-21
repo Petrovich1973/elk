@@ -13,36 +13,40 @@ export default function FilterValueElement({
     const getMask = type => {
         switch (type) {
             case 'NUMBER':
-                return getExtension('999999999999999999999999')
+                return '999999999999999999999999'
             case 'DATE_TIME':
-                return getExtension('9999-99-99T99:99:99.999999')
+                return '9999-99-99T99:99:99.999999'
             case 'DATE':
-                return getExtension('9999-99-99')
+                return '9999-99-99'
             default:
-                return getExtension('')
+                return ''
         }
     }
 
-    const getExtension = mask => {
-        switch (acceptedFilters) {
-            case "EQUAL":
-                return mask
-            case "BETWEEN":
-                return mask
-            case 'GT':
-                return mask
-            case 'GTE':
-                return mask
-            case 'LT':
-                return mask
-            case 'LTE':
-                return mask
-            case 'LIKE':
-                return mask
-            default:
-                return mask
-        }
-    }
+    // const getExtension = () => {
+    //     switch (acceptedFilters) {
+    //         case "EQUAL":
+    //             return mask
+    //         case "BETWEEN":
+    //             return mask
+    //         case 'GT':
+    //             return mask
+    //         case 'GTE':
+    //             return mask
+    //         case 'LT':
+    //             return mask
+    //         case 'LTE':
+    //             return mask
+    //         case 'LIKE':
+    //             return mask
+    //         case 'IS_NULL':
+    //             return mask
+    //         case 'IS_NOT_NULL':
+    //             return mask
+    //         default:
+    //             return mask
+    //     }
+    // }
 
     return (
         <div className={'elk_filter_input-double'}>
