@@ -21,7 +21,7 @@ export default function Pagination({
                 name="sizeName"
                 id="sizeId"
                 value={size}
-                onChange={e => onChangeSize(e.target.value)}>
+                onChange={e => onChangeSize(e.target.value || 20)}>
                 {[20, 60, 100].map(element => (
                     <option key={element} value={element}>{element}</option>
                 ))}

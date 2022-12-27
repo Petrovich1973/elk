@@ -1,4 +1,5 @@
 import React from "react"
+import {CopyToClipboard} from 'react-copy-to-clipboard'
 
 export default function DialogModal({
                                         content = null,
@@ -33,6 +34,9 @@ export default function DialogModal({
                         </tbody>
                     </table>
                 </div>
+                <CopyToClipboard text={JSON.stringify(content)}>
+                    <button>Copy</button>
+                </CopyToClipboard>
             </div>
         </div>
     )

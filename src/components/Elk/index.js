@@ -7,11 +7,16 @@ import Pagination from "./Pagination"
 import {NotificationContainer, NotificationManager} from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
 import CreateFilterElement from "./CreateFilterElement"
-import DialogModal from "./DialogModal";
+import DialogModal from "./DialogModal"
+import moment from 'moment'
 
 // const remoteServer = 'http://localhost:3001'
 const remoteServer = 'http://swagger-ci00080066-eiftgen1ds-tp-repca.apps.ift-gen1-ds.delta.sbrf.ru'
 
+// const paramsDefault = {
+//     page: 0 || undefined,
+//     size: 20 || undefined
+// }
 const paramsDefault = {
     page: 0,
     size: 20
@@ -52,11 +57,19 @@ export default function Elk() {
 
     React.useEffect(() => {
         const newTb = getLs()?.tb || tb
+        const newFilter = getLs()?.filter || filter
+        if(!newFilter.some(s => s.name === 'operDate')) {
+            const startdate = moment().subtract(1, "days").format("YYYY-MM-DD")
+            setFilter([...newFilter, {name: 'operDate', type: "GTE", value: startdate}])
+        } else {
+            setFilter(newFilter)
+        }
         setTb(newTb)
+
+        console.log('useEffect')
     }, [])
 
     React.useEffect(() => {
-        console.log('tb=', tb)
         if (tb) void getJournal()
     }, [params.page, params.size, sort.sortBy, sort.sortDir, tb, initial])
 
@@ -67,7 +80,7 @@ export default function Elk() {
 
     // получение журнала
     const getJournal = async () => {
-        console.log('fetch getJournal')
+
         setIsPendingJournal(true)
         try {
             const response = await axios({
@@ -96,7 +109,7 @@ export default function Elk() {
 
     // повторная обработка
     const putJournal = async (f = null) => {
-        console.log(f)
+
         setIsPendingJournal(true)
         try {
             const dataFilter = f ? [f] : filter
@@ -124,7 +137,7 @@ export default function Elk() {
 
     // получение заголовков
     const getHeaders = async (params = null) => {
-        console.log(params)
+
         setIsPendingJournal(true)
         try {
             const response = await axios({
@@ -175,14 +188,16 @@ export default function Elk() {
     }
 
     const onChangePage = page => setParams(prev => ({...prev, page}))
-    const onChangeSize = size => setParams(prev => ({page: 0, size}))
+    const onChangeSize = size => setParams({page: 0, size})
     const onChangeFilterTb = value => {
         setLs({tb: value})
         setTb(value)
     }
-    const onChangeFilter = filterList => setFilter(filterList)
+    const onChangeFilter = filterList => {
+        setLs({filter: filterList})
+        setFilter(filterList)
+    }
     const onSend = () => {
-        console.log('onSend')
         setParams(prev => ({...prev, page: 0}))
         setInitial(Date.now())
     }

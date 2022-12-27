@@ -1,4 +1,5 @@
 import React from "react"
+import Triangle from "./icons/Triangle";
 
 const tdList = {
     "id": "38-5278-1106-24-2022-12-01",
@@ -78,7 +79,15 @@ export default function Journal({
                     {Object.keys(tdList).map((key, idxCell) => (
                         <th
                             onClick={() => onChange(key)}
-                            key={idxCell} className={key === sortBy ? 'sortCurrent' : ''}>{key}</th>
+                            key={idxCell} className={key === sortBy ? 'sortCurrent' : ''}>
+                            <div className={'header-cell'}>
+                                <div className={'arrows'}>
+                                    <div className={sortDir === 'asc' ? 'arrows_up active' : 'arrows_up'}><Triangle/></div>
+                                    <div className={sortDir === 'desc' ? 'arrows_down active' : 'arrows_down'}><Triangle/></div>
+                                </div>
+                                <div>{key}</div>
+                            </div>
+                        </th>
                     ))}
                 </tr>
                 </thead>
@@ -96,7 +105,7 @@ export default function Journal({
                             <a target="_blank" href={`${url}/journal/db?tb=${row?.tb}&id=${row?.id}`}>тело db</a>
                         </td>
                         {Object.keys(tdList).map((key, idxCell) => (
-                            <td key={idxCell}>{'errorMessage' === key ?
+                            <td key={idxCell} className={key === sortBy ? 'sortCurrent' : ''}>{'errorMessage' === key ?
                                 <div className={'wrapNormal'}>{row[key]}</div> : row[key].trim()}</td>
                         ))}
                     </tr>

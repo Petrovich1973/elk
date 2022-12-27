@@ -2,7 +2,7 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    max-width: 100%;
+    width: 100%;
 }
 
 .elk_buttons {
@@ -89,20 +89,26 @@
 }
 
 .elk_journal table th:hover {
-    background-color: #dbdbdb;
+    background-color: #c8c8c8;
     color: black;
+    cursor: pointer;
+}
+
+.elk_journal table th:empty:hover {
+    background-color: initial;
+    color: initial;
+    cursor: default;
 }
 
 .elk_journal .sortCurrent {
-    background-color: #909090;
-    color: white;
-    cursor: pointer;
+    background-color: #dbdbdb;
     user-select: none;
 }
 
 .elk_filter {
+    width: 100%;
     padding: 20px;
-    border: 1px solid;
+    background-color: #ebfbfb;
 }
 
 .elk_filter_header {
@@ -227,4 +233,43 @@
 
 .elk_dialog-content table td {
     padding: 5px 10px;
+}
+
+.header-cell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+}
+
+.arrows {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+}
+
+.arrows > div {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    opacity: .3;
+}
+
+.arrows .arrows_down {
+    transform: scaleY(-1);
+}
+
+.sortCurrent .arrows_up.active, .sortCurrent .arrows_down.active {
+    opacity: 1;
+}
+
+.icon-triangle {
+    display: flex;
+    width: 5px;
+    height: 5px;
+    justify-content: center;
+    align-items: center;
 }
