@@ -101,8 +101,8 @@ export default function Journal({
                             <button onClick={() => getHeaders({tb: row?.tb, id: row?.id})}>
                                 headers view
                             </button>
-                            <a target="_blank" href={`${url}/journal/kafka?tb=${row?.tb}&id=${row?.id}`}>тело кафки</a>
-                            <a target="_blank" href={`${url}/journal/db?tb=${row?.tb}&id=${row?.id}`}>тело db</a>
+                            <a target="_blank" href={`${url}/journal/kafka?tb=${row?.tb}&id=${row?.id}`}>kafka</a>
+                            <a target="_blank" href={`${url}/journal/db?tb=${row?.tb}&id=${row?.id}`}>db</a>
                         </td>
                         {Object.keys(tdList).map((key, idxCell) => (
                             <td key={idxCell} className={key === sortBy ? 'sortCurrent' : ''}>{'errorMessage' === key ?

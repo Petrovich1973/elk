@@ -116,8 +116,24 @@
     justify-content: space-between;
 }
 
-.elk_filter h3 {
+.elk_filter_header h3 {
     margin-top: 0;
+}
+
+.elk_filter_header .elk_filter_infoFind {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+
+.elk_filter_content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 10px;
+}
+.elk_filter_content h3 {
+    margin: 0;
 }
 
 .elk_filter_elements {
@@ -144,10 +160,20 @@
 }
 
 .elk_filter_element.tag {
+    border-radius: 4px;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.elk_filter_element.tag .label {
+}
+
+.elk_filter_element.tag .value {
     background-color: beige;
     border: 1px solid #cccccc;
     border-radius: 4px;
     padding: 2px 4px;
+    display: flex;
     flex-direction: row;
     align-items: center;
     gap: 4px;

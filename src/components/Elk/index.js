@@ -44,6 +44,7 @@ export default function Elk() {
     const [sort, setSort] = React.useState(sortDefault)
     const [headers, setHeaders] = React.useState(null)
     const [tbList, setTbList] = React.useState([])
+    const [syncFindCount, setFindCount] = React.useState(false)
 
     const getLs = () => {
         const ls = localStorage.getItem(lsKey)
@@ -58,15 +59,13 @@ export default function Elk() {
     React.useEffect(() => {
         const newTb = getLs()?.tb || tb
         const newFilter = getLs()?.filter || filter
-        if(!newFilter.some(s => s.name === 'operDate')) {
+        if (!newFilter.some(s => s.name === 'operDate')) {
             const startdate = moment().subtract(1, "days").format("YYYY-MM-DD")
             setFilter([...newFilter, {name: 'operDate', type: "GTE", value: startdate}])
         } else {
             setFilter(newFilter)
         }
         setTb(newTb)
-
-        console.log('useEffect')
     }, [])
 
     React.useEffect(() => {
@@ -92,6 +91,7 @@ export default function Elk() {
             setJournal(response.data.content)
             setTotalPages(response.data.totalPages)
             setTotalElements(response.data.totalElements)
+            setFindCount(true)
 
         } catch (e) {
             console.log(e)
@@ -107,7 +107,7 @@ export default function Elk() {
 
     }
 
-    // повторная обработка
+    // запрос на повторную обработку
     const putJournal = async (f = null) => {
 
         setIsPendingJournal(true)
@@ -192,10 +192,12 @@ export default function Elk() {
     const onChangeFilterTb = value => {
         setLs({tb: value})
         setTb(value)
+        setFindCount(false)
     }
     const onChangeFilter = filterList => {
         setLs({filter: filterList})
         setFilter(filterList)
+        setFindCount(false)
     }
     const onSend = () => {
         setParams(prev => ({...prev, page: 0}))
@@ -218,7 +220,28 @@ export default function Elk() {
                 filter,
                 totalElements,
                 onChangeFilterTb,
-                onChangeFilter
+                onChangeFilter,
+                component: syncFindCount
+                    ? (
+                        <h3 className={'elk_filter_infoFind'}>
+                            <span><small>Найдено:</small> {totalElements.toLocaleString() || 0} </span>
+                            <span>
+                                <button
+                                    style={{
+                                        backgroundColor: '#666666',
+                                        color: '#ffffff',
+                                        border: 'none',
+                                        cursor: "pointer",
+                                        whiteSpace: "nowrap"
+                                    }}
+                                    disabled={!totalElements}
+                                    onClick={() => putJournal()}>обработать повторно</button>
+                            </span>
+                        </h3>
+
+                    ) : (
+                        <React.Fragment/>
+                    )
             }}/>
             <div className={'elk_buttons'}>
                 <div>
@@ -231,14 +254,6 @@ export default function Elk() {
                         disabled={isPendingJournal || !tb}
                         onClick={onSend}>{isPendingJournal ? 'waiting...' : 'применить фильтр'}
                     </button>
-                </div>
-                <div>
-                    <button
-                        style={{backgroundColor: '#666666', color: '#ffffff', border: 'none', cursor: "pointer"}}
-                        disabled={!totalElements}
-                        onClick={() => putJournal()}>повторная обработка
-                    </button>
-
                 </div>
             </div>
             <CreateFilterElement {...{
