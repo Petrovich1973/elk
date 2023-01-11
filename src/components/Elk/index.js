@@ -7,6 +7,7 @@ import Pagination from "./Pagination"
 import {NotificationContainer, NotificationManager} from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
 import CreateFilterElement from "./CreateFilterElement"
+import {getLs, setLs} from './utils'
 import DialogModal from "./DialogModal"
 import moment from 'moment'
 
@@ -24,7 +25,7 @@ const sortDefault = {
 
 // const tbList = [13, 16, 18, 38, 40, 42, 44, 62, 54, 55, 70]
 
-const lsKey = 'BOFL_v001'
+// const lsKey = 'BOFL_v001'
 
 export default function Elk() {
     const [filterAttr, setFilterAttr] = React.useState([])
@@ -41,16 +42,6 @@ export default function Elk() {
     const [headers, setHeaders] = React.useState(null)
     const [tbList, setTbList] = React.useState([])
     const [syncFindCount, setFindCount] = React.useState(false)
-
-    const getLs = () => {
-        const ls = localStorage.getItem(lsKey)
-        return JSON.parse(ls)
-    }
-
-    const setLs = (value) => {
-        const ls = getLs() || {}
-        localStorage.setItem(lsKey, JSON.stringify({...ls, ...value}))
-    }
 
     React.useEffect(() => {
         const newTb = getLs()?.tb || tb

@@ -5,9 +5,7 @@ export default function Filter({
                                    tbList = [],
                                    onChangeFilterTb = () => console.log('Tb change'),
                                    filter = [],
-                                   filterAttr = [],
                                    onChangeFilter = () => console.log('Filter change'),
-                                   totalElements = 0,
                                    component = <React.Fragment>0</React.Fragment>
                                }) {
 

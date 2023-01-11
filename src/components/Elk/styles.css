@@ -305,12 +305,16 @@
 }
 
 .order-change > * {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
     cursor: pointer;
-    background-color: #c8c8c8;
+    width: 50%;
+}
+
+.order-change > *:first-child {
+    text-align: left;
+}
+
+.order-change > *:last-child {
+    text-align: right;
 }
 
 .order-change > *:hover {
