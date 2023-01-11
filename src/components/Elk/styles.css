@@ -132,6 +132,7 @@
     align-items: flex-start;
     gap: 10px;
 }
+
 .elk_filter_content h3 {
     margin: 0;
 }
@@ -163,9 +164,6 @@
     border-radius: 4px;
     flex-direction: column;
     gap: 4px;
-}
-
-.elk_filter_element.tag .label {
 }
 
 .elk_filter_element.tag .value {
@@ -298,4 +296,23 @@
     height: 5px;
     justify-content: center;
     align-items: center;
+}
+
+.order-change {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.order-change > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    cursor: pointer;
+    background-color: #c8c8c8;
+}
+
+.order-change > *:hover {
+    background-color: #ffffff;
 }

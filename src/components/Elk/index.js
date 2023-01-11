@@ -187,7 +187,7 @@ export default function Elk() {
         }
     }
 
-    const onChangePage = page => setParams(prev => ({...prev, page}))
+    const onChangePage = page => setParams(prev => ({...prev, page}) || paramsDefault)
     const onChangeSize = size => setParams({page: 0, size})
     const onChangeFilterTb = value => {
         setLs({tb: value})
@@ -200,7 +200,7 @@ export default function Elk() {
         setFindCount(false)
     }
     const onSend = () => {
-        setParams(prev => ({...prev, page: 0}))
+        setParams(prev => ({...prev, page: 0})|| paramsDefault)
         setInitial(Date.now())
     }
     const onChangeSort = value => setSort(value)
