@@ -1,28 +1,28 @@
 import React from "react"
 import Triangle from "./icons/Triangle"
 
-const tdListDefault = {
-    "id": {order: 0, visible: true},
-    "workMode": {order: 1, visible: true},
-    "status": {order: 2, visible: true},
-    "branch": {order: 3, visible: true},
-    "depositNum": {order: 4, visible: true},
-    "epkId": {order: 5, visible: true},
-    "errorMessage": {order: 6, visible: true},
-    "lastRetryTime": {order: 7, visible: true},
-    "office": {order: 8, visible: true},
-    "officeOperNo": {order: 9, visible: true},
-    "operDate": {order: 10, visible: true},
-    "operationCode": {order: 11, visible: true},
-    "partitionKey": {order: 12, visible: true},
-    "recordOffset": {order: 13, visible: true},
-    "recordTime": {order: 14, visible: true},
-    "retryCount": {order: 15, visible: true},
-    "tb": {order: 16, visible: true},
-    "topic": {order: 17, visible: true},
-    "topicPartition": {order: 18, visible: true},
-    "untb": {order: 19, visible: true}
-}
+const tdListDefault = [
+    {key: "id", visible: true},
+    {key: "workMode", visible: true},
+    {key: "status", visible: true},
+    {key: "branch", visible: true},
+    {key: "depositNum", visible: true},
+    {key: "epkId", visible: true},
+    {key: "errorMessage", visible: true},
+    {key: "lastRetryTime", visible: true},
+    {key: "office", visible: true},
+    {key: "officeOperNo", visible: true},
+    {key: "operDate", visible: true},
+    {key: "operationCode", visible: true},
+    {key: "partitionKey", visible: true},
+    {key: "recordOffset", visible: true},
+    {key: "recordTime", visible: true},
+    {key: "retryCount", visible: true},
+    {key: "tb", visible: true},
+    {key: "topic", visible: true},
+    {key: "topicPartition", visible: true},
+    {key: "untb", visible: true}
+]
 
 export default function Journal({
                                     journal = [],
@@ -33,47 +33,50 @@ export default function Journal({
                                     url = ''
                                 }) {
     const [tdList, setTdList] = React.useState(tdListDefault)
-    const [modeSetting, setModeSetting] = React.useState(true)
+    const [modeSetting, setModeSetting] = React.useState(false)
 
     React.useEffect(() => {
 
     }, [])
 
+    const onClearSetting = () => setTdList(tdListDefault)
+
     const onChangeVisibleCol = (key) => {
-        setTdList(prev => ({...prev, [key]: {...prev[key], visible: !prev[key]?.visible}}))
+        setTdList(prev => prev.map(el => {
+            if (el.key === key) return ({...el, visible: !el.visible})
+            return (el)
+        }))
     }
 
-    const onChangeOrderCol = (key, idx) => {
-        setTdList(prev => ({...prev, [key]: {...prev[key], order: prev[key]?.order + idx}}))
+    const onChangeOrderCol = (from, to) => {
+        let array = [...tdList]
+        swapPositions(array, from, to)
+        setTdList(array)
     }
 
-    // console.log(tdList)
-
-    // const swapPositions = (array, a ,b) => {
-    //     [array[a], array[b]] = [array[b], array[a]]
-    // }
-    //
-    // let array = [1,2,3,4,5];
-    // swapPositions(array,0,1);
+    const swapPositions = (array, a, b) => {
+        [array[a], array[b]] = [array[b], array[a]]
+    }
 
 
 // Решение - Разделить номер счета по разрядам
-    let indexSpase = [4,7,8,12]
+    let indexSpase = [4, 7, 8, 12]
     // let deposit = '42303810911000393152'
-    let deposit = '423'
+    let deposit = '42303810911000393152'
         .split('')
         .map((el, i) => {
-            if(indexSpase.includes(i)) return `${el} `
+            if (indexSpase.includes(i)) return `${el} `
             return el
         })
         .join('')
 
-
-
-
-    const onChangePositionTd = (current, target) => {
-        setTdList(tdList)
-    }
+    const depositSplit = value => value
+        .split('')
+        .map((el, i) => {
+            if (indexSpase.includes(i)) return `${el} `
+            return el
+        })
+        .join('')
 
     const onChangeSortRows = key => {
         let newSort = {sortBy: key, sortDir}
@@ -99,13 +102,12 @@ export default function Journal({
                 <thead>
                 <tr>
                     <th/>
-                    {Object.keys(tdList)
-                        .filter(key => tdList[key]?.visible)
-                        .sort((a, b) => tdList[a]?.order - tdList[b]?.order)
-                        .map((key, idxCell) => (
+                    {tdList
+                        .filter(el => el.visible)
+                        .map((el, idxCell) => (
                             <th
-                                onClick={() => onChangeSortRows(key)}
-                                key={idxCell} className={key === sortBy ? 'sortCurrent' : ''}>
+                                onClick={() => onChangeSortRows(el.key)}
+                                key={idxCell} className={el.key === sortBy ? 'sortCurrent' : ''}>
                                 <div className={'header-cell'}>
                                     <div className={'arrows'}>
                                         <div className={sortDir === 'asc' ? 'arrows_up active' : 'arrows_up'}>
@@ -114,7 +116,7 @@ export default function Journal({
                                         <div className={sortDir === 'desc' ? 'arrows_down active' : 'arrows_down'}>
                                             <Triangle/></div>
                                     </div>
-                                    <div>{key}</div>
+                                    <div>{el.key}</div>
                                 </div>
                             </th>
                         ))}
@@ -133,19 +135,23 @@ export default function Journal({
                             <a target="_blank" href={`${url}/journal/kafka?tb=${row?.tb}&id=${row?.id}`}>kafka</a>
                             <a target="_blank" href={`${url}/journal/db?tb=${row?.tb}&id=${row?.id}`}>db</a>
                         </td>
-                        {Object.keys(tdList)
-                            .filter(key => tdList[key]?.visible)
-                            .sort((a, b) => tdList[a]?.order - tdList[b]?.order)
-                            .map((key, idxCell) => (
+                        {tdList
+                            .filter(el => el.visible)
+                            .map((el, idxCell) => (
                                 <td
                                     key={idxCell}
-                                    className={key === sortBy ? 'sortCurrent' : ''}>
-                                    {'errorMessage' === key
+                                    className={el.key === sortBy ? 'sortCurrent' : ''}>
+                                    {'errorMessage' === el.key
                                         ?
                                         (
-                                            <div className={'wrapNormal'}>{row[key]}</div>
+                                            <div className={'wrapNormal'}>{row[el.key]}</div>
                                         )
-                                        : row[key].trim()}
+                                        : 'depositNum' === el.key
+                                            ?
+                                            (
+                                                <div>{depositSplit(row[el.key])}</div>
+                                            )
+                                            : row[el.key].trim()}
                                 </td>
                             ))}
                     </tr>
@@ -157,14 +163,14 @@ export default function Journal({
                 onChangeVisible={onChangeVisibleCol}
                 onChangeOrder={onChangeOrderCol}
                 tdList={tdList}
-                tdListDefault={tdListDefault}/>}
+                onClearSetting={onClearSetting}/>}
         </div>
     )
 }
 
 const DialogModalManagementColumns = ({
-                                          tdList = {},
-                                          tdListDefault = {},
+                                          tdList = [],
+                                          onClearSetting = () => console.log('onClearSetting'),
                                           onClose = () => console.log('onClose'),
                                           onChangeVisible = () => console.log('onChangeVisible'),
                                           onChangeOrder = () => console.log('onChangeOrder')
@@ -186,24 +192,26 @@ const DialogModalManagementColumns = ({
                     <h2>Управление колонками</h2>
                     <button className={'close'} onClick={onClose}>&#10005;</button>
                 </div>
+                <div>
+                    <button onClick={onClearSetting}>сброс настроек</button>
+                </div>
                 <div className="elk_dialog-content">
                     <table>
                         <tbody>
                         <tr>
-                            {Object.keys(tdList)
-                                .sort((a, b) => tdList[a]?.order - tdList[b]?.order)
-                                .map((key) => (
-                                    <td key={key}>
-                                        <div style={{textAlign: "center"}}>{key}</div>
+                            {tdList
+                                .map((el, idx) => (
+                                    <td key={el.key}>
+                                        <div style={{textAlign: "center"}}>{el.key}</div>
                                         <div style={{textAlign: "center"}}>
                                             <input
-                                                onChange={() => onChangeVisible(key)}
+                                                onChange={() => onChangeVisible(el.key)}
                                                 type={'checkbox'}
-                                                checked={tdList[key]?.visible}/>
+                                                checked={el.visible}/>
                                         </div>
                                         <div className={'order-change'}>
-                                            <span onClick={() => onChangeOrder(key, -1)}>&#10094;</span>
-                                            <span onClick={() => onChangeOrder(key, 1)}>&#10095;</span>
+                                            <span onClick={() => onChangeOrder(idx, idx - 1)}>&#10094;</span>
+                                            <span onClick={() => onChangeOrder(idx, idx + 1)}>&#10095;</span>
                                         </div>
                                     </td>
                                 ))}
