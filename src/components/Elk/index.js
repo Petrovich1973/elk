@@ -11,8 +11,9 @@ import {getLs, setLs} from './utils'
 import DialogModal from "./DialogModal"
 import moment from 'moment'
 
-// const remoteServer = 'http://localhost:3001'
-const remoteServer = 'http://swagger-ci00080066-eiftgen1ds-tp-repca.apps.ift-gen1-ds.delta.sbrf.ru'
+// const remoteServer = 'http://localhost:4001'
+// const remoteServer = 'http://swagger-ci00080066-eiftgen1ds-tp-repca.apps.ift-gen1-ds.delta.sbrf.ru'
+const remoteServer = 'http://swagger-ci00002823-eiftgen1dm-repca-cod.apps.ift-gen1-dm.delta.sbrf.ru'
 
 const paramsDefault = {
     page: 0,
@@ -199,7 +200,7 @@ export default function Elk() {
                 <input type="text" value={url} onChange={(e) => setUrl(e.target.value)}/>
                 <button onClick={getFilters}>повторно получить фильтры</button>
             </div>
-            <h2>ELK</h2>
+            <h2>ЖБТ</h2>
             <Filter {...{
                 tb,
                 tbList,

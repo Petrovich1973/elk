@@ -1,6 +1,7 @@
 import React from "react"
 import Triangle from "./icons/Triangle"
 import DialogModalManagementColumns from "./DialogModalManagementColumns"
+import {getLs, setLs} from './utils'
 
 const tdListDefault = [
     {key: "id", visible: true},
@@ -37,16 +38,22 @@ export default function Journal({
     const [modeSetting, setModeSetting] = React.useState(false)
 
     React.useEffect(() => {
-
+        const attrs = getLs()?.attrs || tdList
+        setTdList(attrs)
     }, [])
 
-    const onClearSetting = () => setTdList(tdListDefault)
+    const onClearSetting = () => {
+        setTdList(tdListDefault)
+        setLs({attrs: tdListDefault})
+    }
 
     const onChangeVisibleCol = (key) => {
-        setTdList(prev => prev.map(el => {
+        const newList = tdList.map(el => {
             if (el.key === key) return ({...el, visible: !el.visible})
             return (el)
-        }))
+        })
+        setLs({attrs: newList})
+        setTdList(newList)
     }
 
     const onChangeOrderCol = (from, to) => {
@@ -54,6 +61,7 @@ export default function Journal({
         if (to in array) {
             swapPositions(array, from, to)
             setTdList(array)
+            setLs({attrs: array})
         }
     }
 
@@ -151,7 +159,7 @@ export default function Journal({
                                             (
                                                 <div>{depositSplit(row[el.key])}</div>
                                             )
-                                            : row[el.key].trim()}
+                                            : row[el.key]}
                                 </td>
                             ))}
                     </tr>

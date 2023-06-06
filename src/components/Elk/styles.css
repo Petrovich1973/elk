@@ -149,6 +149,7 @@
     border-radius: 4px;
     padding: 20px;
     margin: 20px 0;
+    align-items: flex-start;
 }
 
 .elk_filter select, .elk_filter_element select, .elk_filter_element input {

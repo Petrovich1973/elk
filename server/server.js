@@ -8,10 +8,10 @@ const middlewares = jsonServer.defaults()
 server.use(middlewares)
 server.use(bodyParser.json())
 
-const PORT = 3001
+const PORT = 4001
 
 const DB_ADDRESS = 'http://localhost'
-const DB_PORT = 3002
+const DB_PORT = 4002
 const DB_URL = `${DB_ADDRESS}:${DB_PORT}`
 
 const delay = ms => new Promise(yea => setTimeout(yea, ms))

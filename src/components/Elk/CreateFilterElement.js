@@ -73,6 +73,7 @@ export default function CreateFilterElement({
 
     return (
         <div className={'elk_filter_elements add'}>
+            <h4 style={{margin: 0}}>Добавить фильтр</h4>
             <div className={'elk_filter_element'}>
                 <label htmlFor="nameId">имя атрибута</label>
                 <select

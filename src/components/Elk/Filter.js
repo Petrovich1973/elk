@@ -42,7 +42,7 @@ export default function Filter({
                             <label htmlFor="TbId">Тербанк</label>
                             <select name="TbName" id="TbId" value={tb} onChange={e => onChangeFilterTb(e.target.value)}>
                                 <option value={''}>пусто</option>
-                                {tbList.map(element => (
+                                {Object.keys(tbList).map(element => (
                                     <option key={element} value={element}>Tb {element}</option>
                                 ))}
                             </select>
